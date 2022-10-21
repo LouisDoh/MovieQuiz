@@ -16,7 +16,9 @@ public class Actor {
     @Column(name="last_name")
     String lastName;
 
-        public Actor() {
-
+        public Actor(int actorID, String firstName, String lastName) {
+            this.actorID = actorID;
+            this.firstName = firstName;
+            this.lastName = lastName;
         }
 }
