@@ -30,6 +30,15 @@ public class MovieQuizApplication {
 		return actorRepo.findAll();
 	}
 
+	@GetMapping("/{actorID}")
+	public @ResponseBody
+	Actor getActorByID(@PathVariable("actorID") int actorID) {
+		Actor actor = actorRepo.findById(actorID)
+				.orElseThrow(() -> new ResourceAccessException("Actor ID doesn't exist in DB ; ; " + actorID));
+
+		return actor;
+	}
+
 	@PutMapping("/putActor/{id}")
 	public ResponseEntity<Actor> updateActor(@PathVariable(value="id") int actorID,
 											 @RequestBody Actor actorDetails) {
@@ -43,8 +52,5 @@ public class MovieQuizApplication {
 		final Actor updatedActor = actorRepo.save(actorDetails);
 		return ResponseEntity.ok(updatedActor);
 	}
-
-	@PostMapping("/addActor")
-	public ResponseEntity<Actor> addActor()
 
 }
