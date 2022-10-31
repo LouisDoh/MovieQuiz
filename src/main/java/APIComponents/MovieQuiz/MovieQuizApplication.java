@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.ResourceAccessException;
 
 @SpringBootApplication
 @RestController
@@ -27,5 +29,22 @@ public class MovieQuizApplication {
 	Iterable<Actor> getAllActors() {
 		return actorRepo.findAll();
 	}
+
+	@PutMapping("/putActor/{id}")
+	public ResponseEntity<Actor> updateActor(@PathVariable(value="id") int actorID,
+											 @RequestBody Actor actorDetails) {
+		Actor actor = actorRepo.findById(actorID)
+				.orElseThrow(() -> new ResourceAccessException("Actor ID doesn't exist in DB ; ; " + actorID));
+
+		actorDetails.setActorID(actorDetails.getActorID());
+		actorDetails.setFirstName(actorDetails.getFirstName());
+		actorDetails.setLastName(actorDetails.getLastName());
+
+		final Actor updatedActor = actorRepo.save(actorDetails);
+		return ResponseEntity.ok(updatedActor);
+	}
+
+	@PostMapping("/addActor")
+	public ResponseEntity<Actor> addActor()
 
 }
