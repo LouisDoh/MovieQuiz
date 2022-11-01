@@ -39,8 +39,8 @@ public class MovieQuizApplication {
 		return actor;
 	}
 
-	@PutMapping("/putActor/{id}")
-	public ResponseEntity<Actor> updateActor(@PathVariable(value="id") int actorID,
+	@PutMapping("/putActor/{actorID}")
+	public ResponseEntity<Actor> updateActor(@PathVariable(value="actorID") int actorID,
 											 @RequestBody Actor actorDetails) {
 		Actor actor = actorRepo.findById(actorID)
 				.orElseThrow(() -> new ResourceAccessException("Actor ID doesn't exist in DB ; ; " + actorID));
