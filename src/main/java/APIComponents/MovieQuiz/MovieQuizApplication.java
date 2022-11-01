@@ -53,4 +53,10 @@ public class MovieQuizApplication {
 		return ResponseEntity.ok(updatedActor);
 	}
 
+	@PostMapping("/addActor")
+	public ResponseEntity<Actor> addActor(@RequestBody Actor newActor) {
+		Actor toAdd = actorRepo.save(newActor);
+		return ResponseEntity.ok(toAdd);
+	}
+
 }
