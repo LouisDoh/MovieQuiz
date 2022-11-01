@@ -59,4 +59,12 @@ public class MovieQuizApplication {
 		return ResponseEntity.ok(toAdd);
 	}
 
+	@DeleteMapping("/removeActor")
+	public void deleteActor(@RequestBody int actorID) {
+		Actor actor = actorRepo.findById(actorID)
+				.orElseThrow(() -> new ResourceAccessException("Actor ID doesn't exist in DB ; ; " + actorID));
+
+		actorRepo.deleteById(actorID);
+	}
+
 }
