@@ -16,9 +16,9 @@ public class Actor {
     @Column(name="last_name")
     String lastName;
 
-        public Actor() {
+    public Actor() {
 
-        }
+    }
 
     public int getActorID() {
         return actorID;
