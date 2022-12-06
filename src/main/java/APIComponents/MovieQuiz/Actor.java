@@ -1,6 +1,9 @@
 package APIComponents.MovieQuiz;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="actor")
@@ -16,8 +19,18 @@ public class Actor {
     @Column(name="last_name")
     String lastName;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "actors")
+    private List<Film> films;
+
     public Actor() {
 
+    }
+
+    public Actor(int ID, String first, String last) {
+        this.actorID = ID;
+        this.firstName = first;
+        this.lastName = last;
     }
 
     public int getActorID() {
