@@ -64,11 +64,12 @@ public class MovieQuizApplication {
 	}
 
 	@DeleteMapping("/removeActor")
-	public void deleteActor(@RequestBody int actorID) {
+	public Actor deleteActor(@RequestBody int actorID) {
 		Actor actor = actorRepo.findById(actorID)
 				.orElseThrow(() -> new ResourceAccessException("Actor ID doesn't exist in DB ; ; " + actorID));
 
 		actorRepo.deleteById(actorID);
+		return actor;
 	}
 
 	@GetMapping("/getPActors")
@@ -98,28 +99,39 @@ public class MovieQuizApplication {
 	@GetMapping("/films/{title}")
 	public @ResponseBody
 	Film getFilm(@PathVariable String title) {
-		return filmRepo.findByTitle(title);
+		Film selectedFilm = filmRepo.findByTitle(title)
+				.orElseThrow(() -> new ResourceAccessException("Film doesn't exist" + title));
+		return selectedFilm;
 	}
 
-	@GetMapping("/films/title/{title}")
+	@GetMapping("/films/cats/{title}")
 	public @ResponseBody
 	Iterable<Category> getCatsOfFilm(@PathVariable String title) {
-		Film selectedFilm = filmRepo.findByTitle(title);
+		Film selectedFilm = filmRepo.findByTitle(title)
+				.orElseThrow(() -> new ResourceAccessException("Film doesn't exist" + title));
 		return selectedFilm.getCategories();
 	}
 
 	@GetMapping("/actors/in/{title}")
 	public @ResponseBody
 	Iterable<Actor> getActorsInFilm(@PathVariable String title) {
-		Film selectedFilm = filmRepo.findByTitle(title);
+		Film selectedFilm = filmRepo.findByTitle(title)
+				.orElseThrow(() -> new ResourceAccessException("Film doesn't exist" + title));
 		return selectedFilm.getActors();
 	}
 
 	@GetMapping("/actors/manyIn/{title}")
 	public @ResponseBody
 	int noOfActorsInFilm(@PathVariable String title) {
-		Film selectedFilm = filmRepo.findByTitle(title);
+		Film selectedFilm = filmRepo.findByTitle(title)
+				.orElseThrow(() -> new ResourceAccessException("Film doesn't exist" + title));
 		return selectedFilm.getActors().size();
+	}
+
+	@GetMapping("/actors/byName/{name}")
+	public @ResponseBody
+	Iterable<Actor> actorsWithName(@PathVariable String name) {
+		return actorRepo.actorsWithName(name);
 	}
 
 }

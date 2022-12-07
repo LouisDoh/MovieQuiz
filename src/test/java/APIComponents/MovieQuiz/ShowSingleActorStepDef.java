@@ -23,7 +23,7 @@ public class ShowSingleActorStepDef {
     private ActorRepository actorRepo;
     private FilmRepository filmRepo;
     private CategoryRepository catRepo;
-    MovieQuizApplication app = new MovieQuizApplication(actorRepo, filmRepo, catRepo);
+    //MovieQuizApplication app = new MovieQuizApplication(actorRepo, filmRepo, catRepo);
 
 //    Mockito class attrs
 //    private ActorRepository actorRepo = mock(ActorRepository.class);
@@ -51,6 +51,8 @@ public class ShowSingleActorStepDef {
     public void i_request_that_actor_s_details() {
         this.chosenActor = this.actorRepo.findById(this.actorID)
                 .orElseThrow(() -> new ResourceAccessException("Actor doesn't exist in DB"));
+
+        Assertions.assertNotEquals(null,this.chosenActor,"Actor not retrieved.");
     }
 
     @Then("The webpage should show the actor's {string} and {string}")
