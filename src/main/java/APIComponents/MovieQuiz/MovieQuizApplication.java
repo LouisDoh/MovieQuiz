@@ -18,6 +18,11 @@ public class MovieQuizApplication {
 	private ActorRepository actorRepo;
 	private FilmRepository filmRepo;
 	private CategoryRepository catRepo;
+
+	final private String FILM_NOT_FOUND = "No film found matching those details";
+	final private String ACTOR_NOT_FOUND = "No actor found matching those details";
+	final private String CAT_NOT_FOUND = "No category found matching those details";
+
 	public MovieQuizApplication(ActorRepository myActorRepo, FilmRepository myFilmRepo,
 								CategoryRepository myCatRepo) {
 		this.actorRepo = myActorRepo;
@@ -38,17 +43,15 @@ public class MovieQuizApplication {
 	@GetMapping("/getActor/{actorID}")
 	public @ResponseBody
 	Actor getActorByID(@PathVariable("actorID") int actorID) {
-		Actor actor = actorRepo.findById(actorID)
-				.orElseThrow(() -> new ResourceAccessException("Actor ID doesn't exist in DB ; ; " + actorID));
-
-		return actor;
+		return actorRepo.findById(actorID)
+				.orElseThrow(() -> new ResourceAccessException(ACTOR_NOT_FOUND + actorID));
 	}
 
 	@PutMapping("/putActor/{actorID}")
 	public ResponseEntity<Actor> updateActor(@PathVariable(value="actorID") int actorID,
 											 @RequestBody Actor actorDetails) {
 		Actor actor = actorRepo.findById(actorID)
-				.orElseThrow(() -> new ResourceAccessException("Actor ID doesn't exist in DB ; ; " + actorID));
+				.orElseThrow(() -> new ResourceAccessException(ACTOR_NOT_FOUND + actorID));
 
 		actor.setFirstName(actorDetails.getFirstName());
 		actor.setLastName(actorDetails.getLastName());
@@ -66,7 +69,7 @@ public class MovieQuizApplication {
 	@DeleteMapping("/removeActor")
 	public Actor deleteActor(@RequestBody int actorID) {
 		Actor actor = actorRepo.findById(actorID)
-				.orElseThrow(() -> new ResourceAccessException("Actor ID doesn't exist in DB ; ; " + actorID));
+				.orElseThrow(() -> new ResourceAccessException(ACTOR_NOT_FOUND + actorID));
 
 		actorRepo.deleteById(actorID);
 		return actor;
@@ -93,23 +96,22 @@ public class MovieQuizApplication {
 	public @ResponseBody
 	Iterable<Film> getFilmsInCat(@PathVariable String cat) {
 		Category foundCat = catRepo.findByName(cat)
-				.orElseThrow(() -> new ResourceAccessException("Category doesn't exist."));
+				.orElseThrow(() -> new ResourceAccessException(CAT_NOT_FOUND+": "+cat));
 		return foundCat.getFilms();
 	}
 
 	@GetMapping("/films/{title}")
 	public @ResponseBody
 	Film getFilm(@PathVariable String title) {
-		Film selectedFilm = filmRepo.findByTitle(title)
-				.orElseThrow(() -> new ResourceAccessException("Film doesn't exist" + title));
-		return selectedFilm;
+		return filmRepo.findByTitle(title)
+				.orElseThrow(() -> new ResourceAccessException(FILM_NOT_FOUND + title));
 	}
 
 	@GetMapping("/films/cats/{title}")
 	public @ResponseBody
 	Iterable<Category> getCatsOfFilm(@PathVariable String title) {
 		Film selectedFilm = filmRepo.findByTitle(title)
-				.orElseThrow(() -> new ResourceAccessException("Film doesn't exist" + title));
+				.orElseThrow(() -> new ResourceAccessException(FILM_NOT_FOUND + title));
 		return selectedFilm.getCategories();
 	}
 
@@ -117,7 +119,7 @@ public class MovieQuizApplication {
 	public @ResponseBody
 	Iterable<Actor> getActorsInFilm(@PathVariable String title) {
 		Film selectedFilm = filmRepo.findByTitle(title)
-				.orElseThrow(() -> new ResourceAccessException("Film doesn't exist" + title));
+				.orElseThrow(() -> new ResourceAccessException(FILM_NOT_FOUND + title));
 		return selectedFilm.getActors();
 	}
 
@@ -125,7 +127,7 @@ public class MovieQuizApplication {
 	public @ResponseBody
 	int noOfActorsInFilm(@PathVariable String title) {
 		Film selectedFilm = filmRepo.findByTitle(title)
-				.orElseThrow(() -> new ResourceAccessException("Film doesn't exist" + title));
+				.orElseThrow(() -> new ResourceAccessException(FILM_NOT_FOUND + title));
 		return selectedFilm.getActors().size();
 	}
 
@@ -149,5 +151,3 @@ public class MovieQuizApplication {
 	}
 
 }
-
-
