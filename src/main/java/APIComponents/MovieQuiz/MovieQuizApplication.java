@@ -92,7 +92,8 @@ public class MovieQuizApplication {
 	@GetMapping("/films/category/{cat}")
 	public @ResponseBody
 	Iterable<Film> getFilmsInCat(@PathVariable String cat) {
-		Category foundCat = catRepo.findByName(cat);
+		Category foundCat = catRepo.findByName(cat)
+				.orElseThrow(() -> new ResourceAccessException("Category doesn't exist."));
 		return foundCat.getFilms();
 	}
 
@@ -132,6 +133,19 @@ public class MovieQuizApplication {
 	public @ResponseBody
 	Iterable<Actor> actorsWithName(@PathVariable String name) {
 		return actorRepo.actorsWithName(name);
+	}
+
+	@GetMapping("/test")
+	public @ResponseBody
+	FilmCategory test() {
+		Film film = filmRepo.findById(1)
+				.orElseThrow(() -> new ResourceAccessException("blah"));
+		Category cat = catRepo.findById(1)
+				.orElseThrow(() -> new ResourceAccessException("blah"));
+
+		FilmCategory filmCat = new FilmCategory(film,cat);
+
+		return filmCat;
 	}
 
 }
