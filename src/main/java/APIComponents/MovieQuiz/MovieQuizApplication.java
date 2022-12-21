@@ -19,9 +19,9 @@ public class MovieQuizApplication {
 	private FilmRepository filmRepo;
 	private CategoryRepository catRepo;
 
-	final private String FILM_NOT_FOUND = "No film found matching those details";
-	final private String ACTOR_NOT_FOUND = "No actor found matching those details";
-	final private String CAT_NOT_FOUND = "No category found matching those details";
+	final private String FILM_NOT_FOUND = "No film found matching details: ";
+	final private String ACTOR_NOT_FOUND = "No actor found matching details: ";
+	final private String CAT_NOT_FOUND = "No category found matching details: ";
 
 	public MovieQuizApplication(ActorRepository myActorRepo, FilmRepository myFilmRepo,
 								CategoryRepository myCatRepo) {
