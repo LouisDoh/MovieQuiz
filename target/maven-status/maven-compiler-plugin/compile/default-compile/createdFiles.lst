@@ -1,0 +1,8 @@
+APIComponents\MovieQuiz\Category.class
+APIComponents\MovieQuiz\FilmRepository.class
+APIComponents\MovieQuiz\Actor.class
+APIComponents\MovieQuiz\MovieQuizApplication.class
+APIComponents\MovieQuiz\CategoryRepository.class
+APIComponents\MovieQuiz\ActorRepository.class
+APIComponents\MovieQuiz\Film.class
+APIComponents\MovieQuiz\FilmCategory.class
