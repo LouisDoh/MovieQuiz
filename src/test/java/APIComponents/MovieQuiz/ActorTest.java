@@ -9,5 +9,6 @@ public class ActorTest {
     public void test_constructor() {
         Actor testActor = new Actor(1,"PENELOPE","GUINESS");
         Assertions.assertEquals(1,testActor.getActorID(),"Actor has wrong ID.");
+        //test test
     }
 }
